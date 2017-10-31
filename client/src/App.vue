@@ -14,6 +14,7 @@
           :key="i"
           router
           :to="item.href"
+          exact
         >
           <v-list-tile-action>
             <v-icon v-html="item.icon"></v-icon>
@@ -65,7 +66,7 @@
         items: [{
           icon: 'home',
           title: 'Home',
-          href: '/home'
+          href: '/'
         }, {
           icon: '',
           title: 'Reservations',
