@@ -2,6 +2,15 @@
   <div class="create__reservation">
     <form>
       <v-text-field
+        label="Room"
+        v-model="room.name"
+        disabled
+        color="info"
+        required
+        prepend-icon="fa-map-marker"
+      >
+      </v-text-field>
+      <v-text-field
         label="Meeting Name"
         v-model="meetingName"
         :error-messages="meetingNameErrors"
@@ -157,7 +166,7 @@
           </template>
         </v-time-picker>
       </v-menu>
-      <v-btn @click="createRservation" :disabled="disabled">submit</v-btn>
+      <v-btn @click="createReservation" :disabled="disabled">submit</v-btn>
     </form>
   </div>
 </template>
@@ -175,8 +184,10 @@ export default {
     startDate: { required },
     startTime: { required },
     endDate: { required },
-    endTime: { required }
+    endTime: { required },
+    validationGroup: ['meetingName', 'owner', 'ownerEmail', 'startDate', 'startTime', 'endDate', 'endTime']
   },
+  props: ['roomId'],
   data () {
     return {
       disabled: false,
@@ -187,10 +198,12 @@ export default {
       startDate: null,
       endTime: null,
       endDate: null,
-      startMenu: false,
-      startModal: false,
-      endMenu: false,
-      endModal: false
+      startTimeMenu: false,
+      startDateMenu: false,
+      endTimeMenu: false,
+      endDateMenu: false,
+      room: {},
+      isSuccess: false
     }
   },
   computed: {
@@ -238,8 +251,22 @@ export default {
       return errors
     }
   },
+  mounted () {
+    this.$http.get('room/' + this.roomId)
+      .then((response) => {
+        console.log('response:', response)
+        this.room = response.data
+        // this.disabled = false
+      })
+      .catch((err) => {
+        console.log('err', err)
+        // this.disabled = false
+      })
+  },
   methods: {
-    createRservation () {
+    createReservation () {
+      this.$v.$touch()
+      if (this.$v.validationGroup.$invalid) return false
       this.disabled = true
       this.$http.post('reservation', {
         meetingName: this.meetingName,
@@ -249,9 +276,17 @@ export default {
         end: `${this.endDate} ${this.endTime}`
       })
       .then((response) => {
-        console.log('response:', response)
+        console.log('response a:', response)
         // this.reservations = response.data
-        this.disabled = false
+        // this.disabled = false
+        this.room.reservations.push(response.data._id)
+        return this.$http.put('room/' + this.roomId, this.room)
+          .then((response) => {
+            console.log('response b:', response)
+            // this.disabled = false
+            this.isSuccess = true
+            this.$router.push('/room/' + this.roomId)
+          })
       })
       .catch((err) => {
         console.log('err', err)

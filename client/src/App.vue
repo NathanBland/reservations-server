@@ -67,19 +67,21 @@
           icon: 'home',
           title: 'Home',
           href: '/'
-        }, {
-          icon: '',
-          title: 'Reservations',
-          href: '/reservations'
-        }, {
+        },
+        // {
+        //   icon: '',
+        //   title: 'Reservations',
+        //   href: '/reservations'
+        // },
+        {
           icon: '',
           title: 'Rooms',
-          href: 'rooms'
+          href: '/rooms'
         }],
         miniVariant: false,
         right: true,
         rightDrawer: false,
-        title: 'Reservations'
+        title: 'Reservations Server'
       }
     }
   }

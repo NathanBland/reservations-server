@@ -1,6 +1,6 @@
 <template>
-  <div class="Reservations">  
-    <router-link to="/create-reservation">
+  <div class="Rooms">  
+    <router-link to="create-room">
       <v-btn
         absolute
         dark
@@ -12,20 +12,20 @@
         <v-icon>add</v-icon>
       </v-btn>
     </router-link>
-    <v-layout row>
-      <v-flex xs12 sm6 offset-sm3 v-if="reservations.length > 0">
-        <reservation v-for="reservation in reservations" :reservation="reservation" :key="reservation._id"></reservation>
+    <v-layout row wrap>
+      <v-flex xs12 sm6 v-if="rooms.length > 0" v-for="room in rooms">
+        <room :room="room"></room>
       </v-flex>
       <v-flex xs12 v-else>
         <v-card>
           <v-card-title primary-title>
             <div>
-              <div class="headline">No Reservations Found</div>
+              <div class="headline">No Rooms Found</div>
               <span class="grey--text">Click below to make one now.</span>
             </div>
           </v-card-title>
           <v-card-actions>
-            <router-link to="create-reservation"><v-btn flat color="purple">Create Reservation</v-btn></router-link>
+            <router-link to="/create-room"><v-btn flat color="purple">Create Room</v-btn></router-link>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -34,23 +34,23 @@
 </template>
 
 <script>
-import Reservation from '@/components/Reservation'
+import Room from '@/components/Room'
 export default {
-  name: 'reservations',
+  name: 'rooms',
   components: {
-    Reservation
+    Room
   },
   data () {
     return {
-      title: 'Reservations List',
-      reservations: []
+      title: 'Rooms List',
+      rooms: []
     }
   },
   mounted () {
-    this.$http.get('reservation')
+    this.$http.get('room')
     .then((response) => {
       console.log('response:', response)
-      this.reservations = response.data
+      this.rooms = response.data
     })
     .catch((err) => {
       console.log('err', err)
@@ -78,7 +78,7 @@ li {
 a {
   color: #42b983;
 }
-.Reservations {
+.Rooms {
   position: relative;
 }
 </style>

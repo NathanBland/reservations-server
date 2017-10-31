@@ -1,5 +1,5 @@
 <template>
-  <div class="reservation">
+  <div class="room">
     <v-card>
       <!-- <v-card-media
         src="/static/doc-images/cards/sunshine.jpg"
@@ -8,13 +8,13 @@
       </v-card-media> -->
       <v-card-title primary-title>
         <div>
-          <div class="headline">{{reservation.start}} - {{reservation.end}}</div>
-          <span class="grey--text">{{reservation.meetingName}}</span>
+          <div class="headline">{{room.name}}</div>
+          <!-- <span class="grey--text">{{reservation.owner}} - {{reservation.ownerEmail}}</span> -->
         </div>
       </v-card-title>
       <v-card-actions>
-        <!-- <v-btn flat>Share</v-btn>
-        <v-btn flat color="purple">Explore</v-btn> -->
+        <router-link :to="'/room/' + this.room._id"><v-btn flat>View</v-btn></router-link>
+        <!-- <v-btn flat color="purple">Explore</v-btn> -->
         <v-spacer></v-spacer>
         <v-btn icon @click.native="show = !show">
           <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
@@ -22,7 +22,7 @@
       </v-card-actions>
       <v-slide-y-transition>
         <v-card-text v-show="show">
-          {{reservation.owner}} - {{reservation.ownerEmail}}
+          We'll show reservations here. maybe. probably not.
         </v-card-text>
       </v-slide-y-transition>
     </v-card>
@@ -31,18 +31,19 @@
 
 <script>
 export default {
-  name: 'reservation',
+  name: 'room',
   data () {
     return {
-      title: 'Reservation',
+      title: 'Room',
       show: false
     }
   },
-  props: ['reservation']
+  props: ['room']
 }
 </script>
-<<style scoped>
-.reservation {
-  margin: 1em 0;
+
+<style scoped>
+.room {
+  margin: 1em;
 }
 </style>
