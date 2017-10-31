@@ -8,6 +8,11 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      name: 'Reservations',
+      component: Reservations
+    },
+    {
       path: '/home',
       name: 'Reservations',
       component: Reservations
